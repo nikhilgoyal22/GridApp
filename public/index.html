@@ -1,3 +1,79 @@
 <!doctype html>
 <html>
+  <head>
+    <title>Determine Click Position on click of a table cell</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 250px;
+      }
+      td{
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="result"> </div>
+    <table id="drawing-table" border="1" cellpadding="8"></table>
+    <div id="palette">
+      <table id="palette-table" border="1" cellpadding="8"></table>
+    </div>
+
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+        colors = ['red', 'green', 'blue'];
+        selectedColor = 'white';
+        
+        drawgrid = function(n){
+          var tableMarkup = "";
+          for (x = 0; x < n; x++) {
+            tableMarkup += "<tr>";
+            for (y = 0; y < n; y++) {
+              tableMarkup += "<td>&nbsp;</td>";
+            }
+            tableMarkup += "</tr>"; 
+          }
+
+          $("#drawing-table").html(tableMarkup)
+        }
+        
+        drawpalette = function(colors){
+          var tableMarkup = "";
+
+          tableMarkup += "<tr>";
+          for (y = 0; y < colors.length; y++) {
+            tableMarkup += '<td style="background-color: ' + colors[y] + '">&nbsp;</td>';
+          }
+          tableMarkup += "</tr>";
+          $("#palette-table").html(tableMarkup)
+        }
+        
+        drawgrid(5);
+        drawpalette(colors);
+        
+        $("#drawing-table td").click(function() {     
+
+          var column_num = parseInt( $(this).index() ) + 1;
+          var row_num = parseInt( $(this).parent().index() )+1;    
+          $(this).css('backgroundColor', selectedColor);
+          $("#result").html( "Row_num =" + row_num + "  ,  Rolumn_num ="+ column_num );   
+        });
+        
+        $("#palette-table td").click(function() {     
+
+          selectedColor = $(this).css('backgroundColor');
+          alert(selectedColor);
+        });
+      });
+    </script>
+  </body>
 </html>
