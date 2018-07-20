@@ -32,7 +32,7 @@ td{
   color: #000;
   text-decoration: none;
   padding: 3px;
-  cursor: arrow
+  cursor: pointer;
 }
 
 #drawing-table td:hover span {

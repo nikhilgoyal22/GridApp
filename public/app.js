@@ -67,7 +67,7 @@ function initializeGrid(){
 
 $(function() {
   
-  selectedColor = 'white';
+  selectedColor = '';
   
   initializeGrid();
   
@@ -76,10 +76,12 @@ $(function() {
     var row = parseInt($(this).parent().index());
     $(this).css('backgroundColor', selectedColor);
 
-    data = {row : row, column : column, color : selectedColor}
-    $.ajax(reqData('set_cell_data', 'POST', data)).done(function(data, textStatus, jqXHR) {
-      console.log('cell data persisted');
-    }).fail(errorFunction)
+    if(selectedColor.length > 0) {
+      data = {row : row, column : column, color : selectedColor}
+      $.ajax(reqData('set_cell_data', 'POST', data)).done(function(data, textStatus, jqXHR) {
+        console.log('cell data persisted');
+      }).fail(errorFunction)
+    }
     //$("#result").html( "Row_num =" + row + "  ,  Column_num ="+ column );
   });
   
