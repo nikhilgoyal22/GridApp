@@ -22,9 +22,8 @@ table {
 }
 
 td{
-  width: 30px;
-  height: 30px;
-  position: relative;
+  width: 20px;
+  height: 20px;
 }
 
 #drawing-table td span {
@@ -45,4 +44,13 @@ td{
   cursor: pointer;
   text-align: center;
   z-index: 10;
+}
+
+#leaderboard{
+  float: right;
+  text-align: center;
+}
+
+#leaderboard td{
+  min-width: 100px;
 }

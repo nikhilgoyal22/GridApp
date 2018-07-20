@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     get '/get_user', to: 'home#get_user'
     get '/get_cell_data', to: 'home#get_cell_data'
     post '/set_cell_data', to: 'home#set_cell_data'
+    get '/leaderboard', to: 'home#leaderboard'
   end
 
   get '*unmatchedroute', to: redirect('/')
