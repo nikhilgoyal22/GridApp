@@ -25,6 +25,8 @@ function drawpalette(colors){
 function setCell(cell){
   el = $(`#drawing-table tr:eq(${cell['row']}) td:eq(${cell['column']})`)
   el.css('backgroundColor', cell['color'])
+  timestamp = new Date(cell['updated_at']).toLocaleString()
+  el.html(`<span><p>${cell['username']}</p><p>${timestamp}</p></span>`)
 };
 
 function errorFunction(jqXHR, textStatus, errorThrown) {
@@ -46,12 +48,21 @@ function getUser(){
   }).fail(errorFunction)
 }
 
+function updateGrid(){
+  $.ajax(reqData('get_cell_data')).done(function(data, textStatus, jqXHR) {
+    $.each(data, function( i, cell ) {
+      setCell(cell);
+    });
+  }).fail(errorFunction)
+}
+
 function initializeGrid(){
   colors = ['red', 'green', 'blue'];
   
   drawgrid(20);
   drawpalette(colors);
   getUser();
+  updateGrid();
 }
 
 $(function() {
@@ -65,6 +76,10 @@ $(function() {
     var row = parseInt($(this).parent().index());
     $(this).css('backgroundColor', selectedColor);
 
+    data = {row : row, column : column, color : selectedColor}
+    $.ajax(reqData('set_cell_data', 'POST', data)).done(function(data, textStatus, jqXHR) {
+      console.log('cell data persisted');
+    }).fail(errorFunction)
     //$("#result").html( "Row_num =" + row + "  ,  Column_num ="+ column );
   });
   
@@ -73,4 +88,5 @@ $(function() {
     console.log(selectedColor);
   });
 
+  setInterval(updateGrid, 5000);
 });
