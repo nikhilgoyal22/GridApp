@@ -3,6 +3,17 @@ body {
   padding: 0;
 }
 
+.header {
+  overflow: hidden;
+  width: 100%;
+  border-bottom: 3px solid;
+}
+
+.header-right {
+  margin: 20px;
+  float: right;
+}
+
 table {
   margin: 20px;
   border-collapse: collapse;

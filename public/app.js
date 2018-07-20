@@ -27,11 +27,31 @@ function setCell(cell){
   el.css('backgroundColor', cell['color'])
 };
 
+function errorFunction(jqXHR, textStatus, errorThrown) {
+  console.log("something went wrong");
+}
+
+function reqData(url, method='GET', data={}){
+  return {
+    url: '/api/' + url,
+    method: method,
+    data: data,
+    cache: false
+  }
+}
+
+function getUser(){
+  $.ajax(reqData('get_user')).done(function(data, textStatus, jqXHR) {
+    $(".header-right").html(`<span>Username: ${data['username']}</span>`)
+  }).fail(errorFunction)
+}
+
 function initializeGrid(){
   colors = ['red', 'green', 'blue'];
   
   drawgrid(20);
   drawpalette(colors);
+  getUser();
 }
 
 $(function() {
