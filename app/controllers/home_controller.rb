@@ -8,13 +8,16 @@ class HomeController < ApplicationController
   end
 
   def set_cell_data
-    cell = GridCell.find_by(row: cell_params[:row], column: cell_params[:column])
-    if cell
-      cell.update(cell_params.merge({user_id: guest_user.id}))
+    @cell = GridCell.find_by(row: cell_params[:row], column: cell_params[:column])
+    @cell ||= GridCell.new
+
+    @cell.assign_attributes(cell_params.merge({user_id: guest_user.id}))
+    if @cell.save
+      render json: @cell, status: :created
     else
-      cell = GridCell.create(cell_params.merge({user_id: guest_user.id}))
+      render json: {error: @cell.errors.full_messages.join('. ')},
+        status: :unprocessable_entity
     end
-    render json: cell
   end
 
   def leaderboard
